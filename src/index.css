@@ -68,10 +68,25 @@ button:focus-visible {
 }
 
 .headerBox{
-  position: fixed;
+  position:absolute;
   top: 0;
   right: 0;
   width: 100%;
   background-color: red;
 }
 
+.itemList{
+  margin-top: 2cm;
+  border: #2a83f0;
+  border-width: 0.5cm;
+  border-style: solid;
+  border-radius: 25px;
+}
+
+.Home{
+  margin-top: 3cm
+}
+
+ul{
+list-style-type: none;
+}
