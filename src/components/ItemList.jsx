@@ -2,19 +2,31 @@ import { useState } from "react";
 import { useEffect } from "react";
 import Categories from "./Categories";
 
-export default function ItemList() {
+export function ItemList() {
   const [items, setItems] = useState([]);
-
+  const [currentCategory, setCurrentCategory] = useEffect("");
   useEffect(() => {
     // populate button with catagories
 
+    // function to deturmin click
+    function handleClick() {
+      setCurrentCategory("electronics");
+    }
+
     // if conditions based on selected
+
     fetch(`https://nc-marketplace-sem-1.onrender.com/api/items`)
       .then((response) => {
         return response.json();
       })
       .then((data) => {
-        if (data && data.items) {
+        // filters the array based on the category clicked on
+        if (currentCategory) {
+          data.filter(
+            (item) =>
+              item.category_name.toLowerCase() === currentCategory.toLowerCase()
+          );
+        } else {
           setItems(data.items);
         }
       });
@@ -22,7 +34,12 @@ export default function ItemList() {
 
   return (
     <>
-      <Categories />
+      <div className="dropdown">
+        <button className="dropbtn" onClick={handleClick()}>
+          Categories
+        </button>
+        <Categories />
+      </div>
       <ul>
         {items.map((item) => (
           <li key={item.item_id} className="itemList">

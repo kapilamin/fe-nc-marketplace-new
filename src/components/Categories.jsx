@@ -3,7 +3,7 @@ import { useEffect } from "react";
 
 // create button logic
 export default function Categories() {
-  const [Category, setCategory] = useState([]);
+  const [categories, setCategories] = useState([]);
 
   useEffect(() => {
     // populee rop down menu with catagories from api
@@ -12,9 +12,7 @@ export default function Categories() {
         return response.json();
       })
       .then((data) => {
-        // loop over the number in the html
-        console.log(data.categories[0].category_name, "<<< category data");
-        setCategory(data);
+        setCategories(data.categories);
       });
   }, []);
 
@@ -23,7 +21,10 @@ export default function Categories() {
     <div className="dropdown">
       <button className="dropbtn">Categories</button>
       <div className="dropdown-content">
-        <a href="#">{Category}</a>
+        {categories.map((indexNum) => {
+          const categoryName = indexNum.category_name;
+          return <a href="#">{categoryName}</a>;
+        })}
       </div>
     </div>
   );
