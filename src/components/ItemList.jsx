@@ -1,33 +1,32 @@
 import { useState, useEffect } from "react";
-import Categories from "./Categories";
 
-export function ItemList() {
+export function ItemList(props) {
   const [items, setItems] = useState([]);
-  const [currentCategory, setCurrentCategory] = useState("");
+
+  console.log(props.clickedCategoryName, "<<< this is props");
+  const currentCategory = props.clickedCategoryName;
+
   useEffect(() => {
-    fetch(`https://nc-marketplace-sem-1.onrender.com/api/items`)
-    .then((response) => {
-      return response.json();
-    })
-    .then((data) => {
-      console.log(data);
-      if (currentCategory) {
-        console.log(data);
-        // const filteredItems = data.filter(
-        //   (item) =>
-        //     item.category_name.toLowerCase() === currentCategory.toLowerCase()
-        // );
-        // setItems(filteredItems)
-      } else {
-        setItems(data.items);
-      }
-    });
+    if (!currentCategory) {
+      fetch(`https://nc-marketplace-sem-1.onrender.com/api/items`)
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          setItems(data.items);
+        });
+    } else {
+      // fetch(`https://nc-marketplace-sem-1.onrender.com/api/items?catigory=${currentCategory}`)
+      // .then((response) => {
+      //   return response.json();
+      // })
+      // .then((data) => {
+      //   setItems(data.items);
+    }
   }, []);
-  
 
   return (
     <>
-        <Categories/>
       <ul>
         {items.map((item) => (
           <li key={item.item_id} className="itemList">
