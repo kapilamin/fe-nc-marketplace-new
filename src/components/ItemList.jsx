@@ -1,45 +1,33 @@
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import Categories from "./Categories";
 
 export function ItemList() {
   const [items, setItems] = useState([]);
-  const [currentCategory, setCurrentCategory] = useEffect("");
+  const [currentCategory, setCurrentCategory] = useState("");
   useEffect(() => {
-    // populate button with catagories
-
-    // function to deturmin click
-    function handleClick() {
-      setCurrentCategory("electronics");
-    }
-
-    // if conditions based on selected
-
     fetch(`https://nc-marketplace-sem-1.onrender.com/api/items`)
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        // filters the array based on the category clicked on
-        if (currentCategory) {
-          data.filter(
-            (item) =>
-              item.category_name.toLowerCase() === currentCategory.toLowerCase()
-          );
-        } else {
-          setItems(data.items);
-        }
-      });
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      console.log(data);
+      if (currentCategory) {
+        console.log(data);
+        // const filteredItems = data.filter(
+        //   (item) =>
+        //     item.category_name.toLowerCase() === currentCategory.toLowerCase()
+        // );
+        // setItems(filteredItems)
+      } else {
+        setItems(data.items);
+      }
+    });
   }, []);
+  
 
   return (
     <>
-      <div className="dropdown">
-        <button className="dropbtn" onClick={handleClick()}>
-          Categories
-        </button>
-        <Categories />
-      </div>
+        <Categories/>
       <ul>
         {items.map((item) => (
           <li key={item.item_id} className="itemList">
